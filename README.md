@@ -35,6 +35,7 @@ As a Business Analyst / Data Consumer, this system enables the ability to:
 
 🧱 Architecture Overview (Medallion Pattern)
 
+
 IMDb Raw Files (TSV / GZ)
         │
         ▼
