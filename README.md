@@ -33,62 +33,47 @@ As a Business Analyst / Data Consumer, this system enables the ability to:
 
 ⸻
 
-🧱 Architecture Overview (Medallion Pattern)
-
-flowchart TD
-    A["IMDb Raw Files (TSV / GZ)"]
-    B["Bronze Layer<br/>Raw ingestion<br/>Schema enforcement<br/>Audit columns"]
-    C["Silver Layer<br/>Cleansing & normalization<br/>Array explosion<br/>Data validation"]
-    D["Gold Layer<br/>Star schema<br/>SCD Type 2 dimensions<br/>BI-ready marts"]
-
-    A --> B
-    B --> C
-    C --> D
-
-
-⸻
-
 📂 Data Sources
 
 IMDb Non-Commercial Datasets:
-•	title.basics – Movie & title metadata
-•	title.akas – Regional & language titles
-•	title.crew – Directors & writers
-•	title.principals – Cast & crew roles
-•	title.episode – Season & episode data
-•	title.ratings – Ratings & vote counts
-•	name.basics – Personnel & professions
+ •	title.basics – Movie & title metadata
+ •	title.akas – Regional & language titles
+ •	title.crew – Directors & writers
+ •	title.principals – Cast & crew roles
+ •	title.episode – Season & episode data
+ •	title.ratings – Ratings & vote counts
+ •	name.basics – Personnel & professions
 
 Supporting reference data:
-•	Country / Region codes
-•	ISO-639 Language codes
+ •	Country / Region codes
+ •	ISO-639 Language codes
 
 ⸻
 
 🔄 Data Processing & Engineering
 
 🟤 Bronze Layer (Raw Ingestion)
-•	Ingested IMDb TSV files into Databricks Delta tables
-•	Preserved raw structure with:
-•	source_file
-•	ingestion_timestamp
-•	record_hash
-•	Row count validation to ensure no data loss
+ •	Ingested IMDb TSV files into Databricks Delta tables
+ •	Preserved raw structure with:
+ •	source_file
+ •	ingestion_timestamp
+ •	record_hash
+ •	Row count validation to ensure no data loss
 
 ⸻
 
 ⚪ Silver Layer (Cleansing & Standardization)
-•	Removed invalid \N values
-•	Exploded multi-valued arrays:
-•	genres
-•	directors
-•	writers
-•	primaryProfession
-•	knownForTitles
-•	Standardized:
-•	Years, runtime, flags (adult/non-adult)
-•	Region and language codes
-•	Applied data quality checks before promoting records
+ •	Removed invalid \N values
+ •	Exploded multi-valued arrays:
+ •	genres
+ •	directors
+ •	writers
+ •	primaryProfession
+ •	knownForTitles
+ •	Standardized:
+ •	Years, runtime, flags (adult/non-adult)
+ •	Region and language codes
+ •	Applied data quality checks before promoting records
 
 ⸻
 
@@ -97,24 +82,24 @@ Supporting reference data:
 Designed a star schema with surrogate keys and SCD-Type 2 dimensions.
 
 Core Dimensions
-•	dim_title (SCD-2)
-•	dim_name (SCD-2)
-•	dim_genre
-•	dim_role
-•	dim_language
-•	dim_region
-•	dim_year
+ •	dim_title (SCD-2)
+ •	dim_name (SCD-2)
+ •	dim_genre
+ •	dim_role
+ •	dim_language
+ •	dim_region
+ •	dim_year 
 
 Fact Tables
-•	fact_movie_ratings
-•	fact_title_crew
-•	fact_episode_metrics
+ • fact_movie_ratings
+ • fact_title_crew
+ • fact_episode_metrics
 
 Key SCD-2 Features
-•	version_number
-•	is_current_flag
-•	effective_start_date
-•	effective_end_date
+ • version_number
+ • is_current_flag
+ • effective_start_date
+ • effective_end_date
 
 ⸻
 
